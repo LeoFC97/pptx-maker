@@ -1,6 +1,6 @@
 # video-maker
 Projeto open source para fazer apresentações pptx automatizadas.
-Projeto inspirado no Video Maker[https://github.com/filipedeschamps/video-maker]
+Projeto inspirado no Video Maker (https://github.com/filipedeschamps/video-maker)
 
 # Pré requisitos
 
