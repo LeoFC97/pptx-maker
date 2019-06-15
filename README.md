@@ -1,4 +1,5 @@
-# video-maker
+# PPTX Maker
+Esse projeto tem como ambição fazer um software que automatize o processo de criação de apresentações de slides.
 Projeto open source para fazer apresentações pptx automatizadas.
 Projeto inspirado no Video Maker do [Felipe Deschamps](https://github.com/filipedeschamps)
 
