@@ -37,7 +37,7 @@ async function robot (){
         coverSlide.addText([{
             text:"This apresentation was made by AutoPPTX",
             options:{
-                hyperlink:{url:'https://github.com/leonardofernandescosta/pptx-maker', tooltip:'GitHub'}},
+                hyperlink:{url:'https://github.com/LeoFC97/pptx-maker', tooltip:'GitHub'}},
         }],
             {
                 x:'30%',
