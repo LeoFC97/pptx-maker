@@ -1,13 +1,15 @@
 const pptx = require('pptxgenjs');
 const state = require('./state.js')
 const apresentation = new pptx();
+apresentation.setLayout("LAYOUT_WIDE");
 
 
 async function robot (){
     const content = state.load();
     await defineSettings(content);
     await defineSlideMaster(content);
-    await createCoverSlide(content);
+//    await createCoverSlide(content);
+    await createSlideUsingMaster(content);
     await savePresentation(content);
 
     function defineSettings(content){
@@ -18,13 +20,24 @@ async function robot (){
     }
     function defineSlideMaster(content){
         apresentation.defineSlideMaster({
-            title:'coverSlide',
-            bkgd:'FFFFFF',
-           // slideNumber:{x:'30%',y:'90%'}
-        })
+            title : 'MASTER_SLIDE',
+            margin: [0.5, 0.25, 1.00, 0.25],
+            bkgd  : 'FFFFFF',
+            objects: [
+              {image: { x:11.45, y:5.95, w:1.67, h:0.75, path:'assets/logo.png' }},
+              {text:  {
+                  text:'This apresentation was made by AutoPpTX',
+                  options:{x:0, y:6.9, w:'100%', align:'c', color:'050000', fontSize:12}
+              }}
+            ],
+            slideNumber: { x:1.0, y:7.0, color:'050000' }
+          });
     }
 
-
+    function createSlideUsingMaster(content){
+        const slide=apresentation.addNewSlide('MASTER_SLIDE');
+        slide.addText('AAAA',{ x:0.5, y:0.7, fontSize:18 });
+    }
     function createCoverSlide(content){
         const date = new Date();
         console.log(date.getUTCFullYear());
