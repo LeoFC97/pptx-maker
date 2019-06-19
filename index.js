@@ -7,7 +7,7 @@ const robots = {
 }
 
 async function start() {
- // robots.input()
+  //robots.input()
   //await robots.text()
  // await robots.image()
   await robots.powerpoint()
