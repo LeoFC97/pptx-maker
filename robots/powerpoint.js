@@ -24,10 +24,11 @@ async function robot (){
             margin: [0.5, 0.25, 1.00, 0.25],
             bkgd  : 'FFFFFF',
             objects: [
-              {image: { x:11.45, y:5.95, w:1.67, h:0.75, path:'assets/logo.png' }},
+              {image: { x:11.45, y:5.95, w:1.67, h:0.75, path:'assets/logo_transparent.png' }},
               {text:  {
                   text:'This apresentation was made by AutoPpTX',
-                  options:{x:0, y:6.9, w:'100%', align:'c', color:'050000', fontSize:12}
+                  options:{x:0, y:6.9, w:'100%', align:'c', color:'050000', fontSize:12,
+                  hyperlink:{url:'https://github.com/LeoFC97/pptx-maker',tooltip:'GitHub'}},
               }}
             ],
             slideNumber: { x:1.0, y:7.0, color:'050000' }
