@@ -18,10 +18,20 @@ async function robot (){
     }
     function defineSlideMaster(content){
         apresentation.defineSlideMaster({
-            title:'coverSlide',
-            bkgd:'FFFFFF',
-           // slideNumber:{x:'30%',y:'90%'}
-        })
+            title:'MASTER_SLIDE',
+            margin:[0.5,0.25,1.00,0.25],
+            bkgd: 'FFFFFFF',
+            objects:[
+                {iamge:{
+                    x:11.45,y:5.95,h:0.75, path:'aseets/logo.png'}
+                },
+                {text:{
+                    'This apresentation was made using AutoPpTX',
+                    options:{x:0,y:6.9,w:'100%',aling:'c',color:'FFFFFF',fontSize:12}
+                }}
+            ],
+            slideNumber: { x:1.0, y:7.0, color:'FFFFFF' }
+        });
     }
 
 
