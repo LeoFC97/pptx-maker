@@ -7,8 +7,8 @@ apresentation.setLayout("LAYOUT_WIDE");
 async function robot (){
     const content = state.load();
     await defineSettings(content);
-    await defineSlideMaster(content);
-//    await createCoverSlide(content);
+    //await defineSlideMaster(content);
+    await createCoverSlide(content);
     await createSlideUsingMaster(content);
     await savePresentation(content);
 
@@ -19,17 +19,13 @@ async function robot (){
         apresentation.setTitle(content.prefix + content.searchTerm);
     }
     function defineSlideMaster(content){
+        const url1= 'https://github.com/LeoFC97/LabOO';
         apresentation.defineSlideMaster({
             title : 'MASTER_SLIDE',
             margin: [0.5, 0.25, 1.00, 0.25],
             bkgd  : 'FFFFFF',
             objects: [
               {image: { x:11.45, y:5.95, w:1.67, h:0.75, path:'assets/logo_transparent.png' }},
-              {text:  {
-                  text:'This apresentation was made by AutoPpTX',
-                  options:{x:0, y:6.9, w:'100%', align:'c', color:'050000', fontSize:12,
-                  hyperlink:{url:'https://github.com/LeoFC97/pptx-maker',tooltip:'GitHub'}},
-              }}
             ],
             slideNumber: { x:1.0, y:7.0, color:'050000' }
           });
@@ -37,7 +33,14 @@ async function robot (){
 
     function createSlideUsingMaster(content){
         const slide=apresentation.addNewSlide('MASTER_SLIDE');
-        slide.addText('AAAA',{ x:0.5, y:0.7, fontSize:18 });
+        slide.addText([{
+            text:"Clique Aqui",
+            options:{x:0, y:2.9, w:'100%', align:'c', color:'050000', fontSize:12,
+                hyperlink:{
+                    url:"https://github.com/LeoFC97/LabOO"
+                }
+            }
+        }])
     }
     function createCoverSlide(content){
         const date = new Date();
@@ -74,7 +77,7 @@ async function robot (){
            bold:true,
            color:'363636'
        });
-       coverSlide.addText(date.getFullYear()+'/'+date.getMonth()+'/'+date.getDay(),{
+       coverSlide.addText(date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDay(),{
         x:'55%',
         y:'50%',
         fontSize:12,
