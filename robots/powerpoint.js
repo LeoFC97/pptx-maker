@@ -7,8 +7,8 @@ apresentation.setLayout("LAYOUT_WIDE");
 async function robot (){
     const content = state.load();
     await defineSettings(content);
-    await defineSlideMaster(content);
-//    await createCoverSlide(content);
+//    await defineSlideMaster(content);
+    await createCoverSlide(content);
     await createSlideUsingMaster(content);
     await savePresentation(content);
 
@@ -41,10 +41,6 @@ async function robot (){
     }
     function createCoverSlide(content){
         const date = new Date();
-        console.log(date.getUTCFullYear());
-        console.log(date.getUTCMonth());
-        console.log(date.getUTCDay());
-        console.log(date);
         const author ="Robozinho";
         const company="Associação de Robos Depressivos Anonimos - A.R.D.A";
         const coverSlide =  apresentation.addNewSlide('coverSlide');
@@ -74,7 +70,7 @@ async function robot (){
            bold:true,
            color:'363636'
        });
-       coverSlide.addText(date.getFullYear()+'/'+date.getMonth()+'/'+date.getDay(),{
+       coverSlide.addText(date.getUTCFullYear()+'/'+(date.getUTCMonth()+1)+'/'+date.getUTCDate(),{
         x:'55%',
         y:'50%',
         fontSize:12,
