@@ -60,7 +60,7 @@ async function robot (){
            bold:true,
            color:'363636'
        });
-       coverSlide.addText(date.getFullYear()+'/'+date.getMonth()+'/'+date.getDay(),{
+       coverSlide.addText(date.getUTCFullYear()+'/'+(date.getUTCMonth()+1)+'/'+date.getUTCDate(),{
         x:'55%',
         y:'50%',
         fontSize:12,
