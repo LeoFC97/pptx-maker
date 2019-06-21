@@ -7,10 +7,10 @@ apresentation.setLayout("LAYOUT_WIDE");
 async function robot (){
     const content = state.load();
     await defineSettings(content);
-    await defineSlideMaster(content);
     await createCoverSlide(content);
     await callCreatorSliders(content);
     await createSliders(content);
+
     await savePresentation(content);
 
     function defineSettings(content){
