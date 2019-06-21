@@ -1,13 +1,15 @@
 const pptx = require('pptxgenjs');
 const state = require('./state.js')
 const apresentation = new pptx();
+apresentation.setLayout("LAYOUT_WIDE");
 
 
 async function robot (){
     const content = state.load();
     await defineSettings(content);
-    await defineSlideMaster(content);
+//    await defineSlideMaster(content);
     await createCoverSlide(content);
+//    await createSlideUsingMaster(content);
     await savePresentation(content);
 
     function defineSettings(content){
@@ -17,27 +19,38 @@ async function robot (){
         apresentation.setTitle(content.prefix + content.searchTerm);
     }
     function defineSlideMaster(content){
+        const url1= 'https://github.com/LeoFC97/LabOO';
         apresentation.defineSlideMaster({
-            title:'coverSlide',
-            bkgd:'FFFFFF',
-           // slideNumber:{x:'30%',y:'90%'}
-        })
+            title : 'MASTER_SLIDE',
+            margin: [0.5, 0.25, 1.00, 0.25],
+            bkgd  : 'FFFFFF',
+            objects: [
+              {image: { x:11.45, y:5.95, w:1.67, h:0.75, path:'assets/logo_transparent.png' }},
+            ],
+            slideNumber: { x:1.0, y:7.0, color:'050000' }
+          });
     }
 
-
+    function createSlideUsingMaster(content){
+        const slide=apresentation.addNewSlide('MASTER_SLIDE');
+        slide.addText([{
+            text:"Clique Aqui",
+            options:{x:0, y:2.9, w:'100%', align:'c', color:'050000', fontSize:12,
+                hyperlink:{
+                    url:"https://github.com/LeoFC97/LabOO"
+                }
+            }
+        }])
+    }
     function createCoverSlide(content){
         const date = new Date();
-        console.log(date.getUTCFullYear());
-        console.log(date.getUTCMonth());
-        console.log(date.getUTCDay());
-        console.log(date);
         const author ="Robozinho";
         const company="Associação de Robos Depressivos Anonimos - A.R.D.A";
-        const coverSlide =  apresentation.addNewSlide('coverSlide');
+        const coverSlide =  apresentation.addNewSlide();
         coverSlide.addText([{
             text:"This apresentation was made by AutoPPTX",
             options:{
-                hyperlink:{url:'https://github.com/leonardofernandescosta/pptx-maker', tooltip:'GitHub'}},
+                hyperlink:{url:'https://github.com/LeoFC97/pptx-maker', tooltip:'GitHub'}},
         }],
             {
                 x:'30%',
