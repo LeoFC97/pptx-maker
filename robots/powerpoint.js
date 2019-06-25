@@ -12,6 +12,7 @@ async function robot (){
     await createSliders(content);
 
     await savePresentation(content);
+    
 
     function defineSettings(content){
         apresentation.setAuthor("Robozinho");
