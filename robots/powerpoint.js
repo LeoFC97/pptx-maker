@@ -11,6 +11,7 @@ async function robot (){
     await createCoverSlide(content);
     await createSlideUsingMaster(content);
     await savePresentation(content);
+    
 
     function defineSettings(content){
         apresentation.setAuthor("Robozinho");
@@ -44,10 +45,6 @@ async function robot (){
     }
     function createCoverSlide(content){
         const date = new Date();
-        console.log(date.getUTCFullYear());
-        console.log(date.getUTCMonth());
-        console.log(date.getUTCDay());
-        console.log(date);
         const author ="Robozinho";
         const company="Associação de Robos Depressivos Anonimos - A.R.D.A";
         const coverSlide =  apresentation.addNewSlide('coverSlide');
