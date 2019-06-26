@@ -10,6 +10,7 @@ async function robot (){
     await createCoverSlide(content);
     await callCreatorSliders(content);
     await savePresentation(content);
+    
 
     function defineSettings(content){
         apresentation.setAuthor("Robozinho");
@@ -89,6 +90,7 @@ async function robot (){
                 color:'363636',
             }
        );
+
     }
 
     function savePresentation(content){
