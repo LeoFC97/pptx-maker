@@ -78,6 +78,7 @@ async function robot (){
     function createSliders(content)
     {
         let i;
+
     }
 
     function savePresentation(content){
