@@ -9,8 +9,6 @@ async function robot (){
     await defineSettings(content);
     await createCoverSlide(content);
     await callCreatorSliders(content);
-    await createSliders(content);
-
     await savePresentation(content);
 
     function defineSettings(content){
@@ -73,12 +71,27 @@ async function robot (){
         let i;
         for(i=0;i<content.maximumSentences;i++)
         {
-            createSliders(content);
+            createSliders(content,i);
         }
-
+    }
+    function createSliders(content,i){
+        const slide=apresentation.addNewSlide();
+        slide.addText([{
+            text:"This apresentation was made by AutoPPTX",
+            options:{
+                hyperlink:{url:'https://github.com/LeoFC97/pptx-maker', tooltip:'GitHub'}},
+        }],
+            {
+                x:'25%',
+                y:'90%',
+                fontSize:20,
+                bold:true,
+                color:'363636',
+            }
+       );
     }
 
-    async function savePresentation(content){
+    function savePresentation(content){
         console.log("saving presentation");
         apresentation.save(content.searchTerm);
     }
