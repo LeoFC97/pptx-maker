@@ -9,8 +9,6 @@ async function robot (){
     await defineSettings(content);
     await createCoverSlide(content);
     await callCreatorSliders(content);
-    await createSliders(content);
-
     await savePresentation(content);
     
 
@@ -76,10 +74,14 @@ async function robot (){
         {
             createSliders(content);
         }
+    }
+    function createSliders(content)
+    {
+        let i;
 
     }
 
-    async function savePresentation(content){
+    function savePresentation(content){
         console.log("saving presentation");
         apresentation.save(content.searchTerm);
     }
