@@ -76,8 +76,18 @@ async function robot (){
         }
     }
     function createSliders(content,i){
-        ;
         const slide=apresentation.addNewSlide();
+        slide.addText([{
+            text:content.sentences[i].googleSearchQuery,
+        }],
+            {
+                x:1.6,
+                y:0.5,
+                fontSize:25,
+                bold:true,
+                color:'363636',
+            }
+       );
         slide.addText([{
             text:"This apresentation was made by AutoPPTX",
             options:{
@@ -86,21 +96,34 @@ async function robot (){
             {
                 x:'25%',
                 y:'90%',
-                fontSize:20,
+                fontSize:18,
                 bold:true,
                 color:'363636',
             }
        );
-       slide.addText(content.sentences[i].text,{
-        x:0.5,
-        y:0.3,
-        font:13,
-        color:'363636',
-       });
+       slide.addText([{
+            text:content.sentences[i].text,
+            options:{
+                align:'right'
+           }
+        }],
+        {
+            x:2.8,
+            y:2.0,
+            font:13,
+            color:'363636',
+        });
+        slide.addImage({
+            x:9.95,
+            y:4.35, 
+            w:4,
+            h:4, 
+            path:'assets/logo_transparent.png',
+           });
     }
 
-    function savePresentation(content){
-        console.log("saving presentation");
+   async function savePresentation(content){
+       await console.log("saving presentation");
         apresentation.save(content.searchTerm);
     }
 }
