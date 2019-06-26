@@ -75,6 +75,7 @@ async function robot (){
         }
     }
     function createSliders(content,i){
+        ;
         const slide=apresentation.addNewSlide();
         slide.addText([{
             text:"This apresentation was made by AutoPPTX",
@@ -89,6 +90,12 @@ async function robot (){
                 color:'363636',
             }
        );
+       slide.addText(content.sentences[i].text,{
+        x:0.5,
+        y:0.3,
+        font:13,
+        color:'363636',
+       });
     }
 
     function savePresentation(content){
