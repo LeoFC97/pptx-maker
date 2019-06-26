@@ -7,9 +7,8 @@ apresentation.setLayout("LAYOUT_WIDE");
 async function robot (){
     const content = state.load();
     await defineSettings(content);
-    //await defineSlideMaster(content);
     await createCoverSlide(content);
-    await createSlideUsingMaster(content);
+    await callCreatorSliders(content);
     await savePresentation(content);
     
 
@@ -17,46 +16,24 @@ async function robot (){
         apresentation.setAuthor("Robozinho");
         apresentation.setCompany("Associação de Robos Depressivos Anonimos - A.R.D.A");
         apresentation.setSubject(content.searchTerm);
+        
         apresentation.setTitle(content.prefix + content.searchTerm);
     }
-    function defineSlideMaster(content){
-        const url1= 'https://github.com/LeoFC97/LabOO';
-        apresentation.defineSlideMaster({
-            title : 'MASTER_SLIDE',
-            margin: [0.5, 0.25, 1.00, 0.25],
-            bkgd  : 'FFFFFF',
-            objects: [
-              {image: { x:11.45, y:5.95, w:1.67, h:0.75, path:'assets/logo_transparent.png' }},
-            ],
-            slideNumber: { x:1.0, y:7.0, color:'050000' }
-          });
-    }
 
-    function createSlideUsingMaster(content){
-        const slide=apresentation.addNewSlide('MASTER_SLIDE');
-        slide.addText([{
-            text:"Clique Aqui",
-            options:{x:0, y:2.9, w:'100%', align:'c', color:'050000', fontSize:12,
-                hyperlink:{
-                    url:"https://github.com/LeoFC97/LabOO"
-                }
-            }
-        }])
-    }
     function createCoverSlide(content){
         const date = new Date();
         const author ="Robozinho";
         const company="Associação de Robos Depressivos Anonimos - A.R.D.A";
-        const coverSlide =  apresentation.addNewSlide('coverSlide');
+        const coverSlide =  apresentation.addNewSlide();
         coverSlide.addText([{
             text:"This apresentation was made by AutoPPTX",
             options:{
                 hyperlink:{url:'https://github.com/LeoFC97/pptx-maker', tooltip:'GitHub'}},
         }],
             {
-                x:'30%',
+                x:'25%',
                 y:'90%',
-                fontSize:10,
+                fontSize:20,
                 bold:true,
                 color:'363636',
             }
@@ -74,7 +51,7 @@ async function robot (){
            bold:true,
            color:'363636'
        });
-       coverSlide.addText(date.getFullYear()+'/'+(date.getMonth()+1)+'/'+date.getDay(),{
+       coverSlide.addText(date.getUTCFullYear()+'/'+(date.getUTCMonth()+1)+'/'+date.getUTCDate(),{
         x:'55%',
         y:'50%',
         fontSize:12,
@@ -82,9 +59,28 @@ async function robot (){
         bold:true,
         color:'363636'
     });
+       coverSlide.addImage({
+        x:9.95,
+        y:4.35, 
+        w:4,
+        h:4, 
+        path:'assets/logo_transparent.png',
+        
+       });
+    }
+    function callCreatorSliders(content){
+        let i;
+        for(i=0;i<content.maximumSentences;i++)
+        {
+            createSliders(content);
+        }
+    }
+    function createSliders(content)
+    {
+        let i;
     }
 
-    async function savePresentation(content){
+    function savePresentation(content){
         console.log("saving presentation");
         apresentation.save(content.searchTerm);
     }
