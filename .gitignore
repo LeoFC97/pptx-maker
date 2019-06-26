@@ -74,4 +74,4 @@ template.aep Logs
 .DS_Store
 
 
-*.pptx
+*.pptx*
