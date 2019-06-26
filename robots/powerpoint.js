@@ -72,12 +72,24 @@ async function robot (){
         let i;
         for(i=0;i<content.maximumSentences;i++)
         {
-            createSliders(content);
+            createSliders(content,i);
         }
     }
-    function createSliders(content)
-    {
-        let i;
+    function createSliders(content,i){
+        const slide=apresentation.addNewSlide();
+        slide.addText([{
+            text:"This apresentation was made by AutoPPTX",
+            options:{
+                hyperlink:{url:'https://github.com/LeoFC97/pptx-maker', tooltip:'GitHub'}},
+        }],
+            {
+                x:'25%',
+                y:'90%',
+                fontSize:20,
+                bold:true,
+                color:'363636',
+            }
+       );
 
     }
 
