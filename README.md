@@ -34,7 +34,7 @@ npm install
 
 ![Algorithmin](https://i.imgsafe.org/ba/ba1d23897c.gif)
 
-vá até a pasta do projeto onde você clonou o repositório, navegue até a pasta **video-maker\credentials**, crie um arquivo de texto e renomeie para `algorithmia.json`, dentro desse arquivo você irá colocar a `API` que copiou do site **Algorithmia** na estrutura abaixo:
+vá até a pasta do projeto onde você clonou o repositório, navegue até a pasta **pptx-maker\credentials**, crie um arquivo de texto e renomeie para `algorithmia.json`, dentro desse arquivo você irá colocar a `API` que copiou do site **Algorithmia** na estrutura abaixo:
 ``` js
 {
   "apiKey": "API_KEY_AQUI"
@@ -50,7 +50,7 @@ clicando nele na nova página vai aparece um botão "criar" no final da página,
 
 ![IBM](https://i.imgsafe.org/ba/bace46f16b.jpeg)
 
-Novamente, voltando na pasta do projeto ainda dentro da pasta **video-maker\credentials** você ira criar um novo arquivo de texto com o nome `watson-nlu.json` e dentro desse arquivo você vai colar as credenciais que copiou anteriormente:
+Novamente, voltando na pasta do projeto ainda dentro da pasta **pptx-maker\credentials** você ira criar um novo arquivo de texto com o nome `watson-nlu.json` e dentro desse arquivo você vai colar as credenciais que copiou anteriormente:
 ``` js
 {
   "apikey" : "...",
@@ -107,7 +107,7 @@ Procure por **Custom Search API** no dropdown e clique em "**Preciso de quais cr
 
 ![image](https://user-images.githubusercontent.com/34013325/55572958-2cc03300-56df-11e9-8bc1-17641ba5138e.png)
 
-Após isso irá aparecer sua Api Key, você vai copia-la e clicar no botão concluir, voltando a pasta do projeto você vai navegar até **video-maker/credentials** e irá criar um novo arquivo chamado **google-search.json** com o conteúdo abaixo:
+Após isso irá aparecer sua Api Key, você vai copia-la e clicar no botão concluir, voltando a pasta do projeto você vai navegar até **pptx-maker/credentials** e irá criar um novo arquivo chamado **google-search.json** com o conteúdo abaixo:
 
 ```
 {
