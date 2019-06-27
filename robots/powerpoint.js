@@ -5,7 +5,12 @@ apresentation.setLayout("LAYOUT_WIDE");
 
 
 async function robot (){
+
     const content = state.load();
+    const pathForLogoTransparent = 'assets/logo_transparent.png'
+    const repUrl = "https://github.com/LeoFC97/pptx-maker";
+    const autoPptxText = "This slide show was made using AutoPPTX";
+
     await defineSettings(content);
     await createCoverSlide(content);
     await callCreatorSliders(content);
@@ -21,9 +26,7 @@ async function robot (){
     }
 
     function createCoverSlide(content){
-        const pathForLogoTransparent = 'assets/logo_transparent.png'
-        const repUrl = "https://github.com/LeoFC97/pptx-maker";
-        const autoPptxText = "This slide show was made using AutoPPTX";
+
         const date = new Date();
         const company="Associação de Robos Depressivos Anonimos - A.R.D.A";
         const coverSlide =  apresentation.addNewSlide();
@@ -71,7 +74,7 @@ async function robot (){
        });
     }
     function callCreatorSliders(content){
-        let i;
+        let i=0;
         for(i=0;i<content.maximumSentences;i++)
         {
             createSliders(content,i);
@@ -79,6 +82,13 @@ async function robot (){
     }
     function createSliders(content,i){
         const slide=apresentation.addNewSlide();
+        slide.addImage({
+            path:pathForLogoTransparent,
+            x:9.95,
+            y:4.35, 
+            w:4,
+            h:4, 
+        });
         slide.addText([{
             text:content.sentences[i].googleSearchQuery,
         }],
@@ -116,16 +126,18 @@ async function robot (){
             color:'363636',
         });
         slide.addImage({
-            x:9.95,
-            y:4.35, 
-            w:4,
-            h:4, 
-            path:pathForLogoTransparent,
-           });
+            path:'content/'+[i]+'-original.png',
+            x:1.50,
+            y:3.20,
+            w:3.0,
+            h:3.0,
+        });
+
+           console.log(i)
+
     }
 
    async function savePresentation(content){
-       await console.log("saving presentation");
         apresentation.save(content.searchTerm);
     }
 }
