@@ -21,14 +21,16 @@ async function robot (){
     }
 
     function createCoverSlide(content){
+        const pathForLogoTransparent = 'assets/logo_transparent.png'
+        const repUrl = "https://github.com/LeoFC97/pptx-maker";
+        const autoPptxText = "This slide show was made using AutoPPTX";
         const date = new Date();
-        const author ="Robozinho";
         const company="Associação de Robos Depressivos Anonimos - A.R.D.A";
         const coverSlide =  apresentation.addNewSlide();
         coverSlide.addText([{
-            text:"This apresentation was made by AutoPPTX",
+            text:autoPptxText,
             options:{
-                hyperlink:{url:'https://github.com/LeoFC97/pptx-maker', tooltip:'GitHub'}},
+                hyperlink:{url:repUrl, tooltip:'GitHub'}},
         }],
             {
                 x:'25%',
@@ -38,7 +40,7 @@ async function robot (){
                 color:'363636',
             }
        );
-       coverSlide.addText("Author:"+ author,{
+       coverSlide.addText("Author:"+ content.author,{
         x:'50%',
         y:'45%',
         font:20,
@@ -64,7 +66,7 @@ async function robot (){
         y:4.35, 
         w:4,
         h:4, 
-        path:'assets/logo_transparent.png',
+        path:pathForLogoTransparent,
         
        });
     }
@@ -89,9 +91,9 @@ async function robot (){
             }
        );
         slide.addText([{
-            text:"This apresentation was made by AutoPPTX",
+            text:autoPptxText,
             options:{
-                hyperlink:{url:'https://github.com/LeoFC97/pptx-maker', tooltip:'GitHub'}},
+                hyperlink:{url:repUrl, tooltip:'GitHub'}},
         }],
             {
                 x:'25%',
@@ -118,7 +120,7 @@ async function robot (){
             y:4.35, 
             w:4,
             h:4, 
-            path:'assets/logo_transparent.png',
+            path:pathForLogoTransparent,
            });
     }
 
