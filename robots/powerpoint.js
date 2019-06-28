@@ -14,6 +14,7 @@ async function robot (){
     await defineSettings(content);
     await createCoverSlide(content);
     await callCreatorSliders(content);
+    await createbibliographySlide(content);
     await savePresentation(content);
     
 
@@ -132,10 +133,62 @@ async function robot (){
             w:3.0,
             h:3.0,
         });
-
-           console.log(i)
-
     }
+    function createbibliographySlide(content){
+        const slide = apresentation.addNewSlide();
+        slide.addImage({
+            path:pathForLogoTransparent,
+            x:9.95,
+            y:4.35, 
+            w:4,
+            h:4, 
+        });
+        slide.addText([{
+            text:autoPptxText,
+            options:{
+                hyperlink:{url:repUrl, tooltip:'GitHub'}},
+        }],
+            {
+                x:'25%',
+                y:'90%',
+                fontSize:18,
+                bold:true,
+                color:'363636',
+            }
+       );
+       let i=0;
+       const wikipediaUrl='https://en.wikipedia.org/wiki/'+content.searchTerm;
+           slide.addText([{
+               text:wikipediaUrl,
+               options:{
+                   hyperlink:{url:wikipediaUrl, tooltip:'Wikipedia'}
+                },
+           }],
+           {
+                x:1,
+                y:0,
+                fontSize:18,
+                bold:true,
+                color:'363636',
+            }
+           );
+           for(i=0;i<content.maximumSentences;i++){
+               let spaceBetweenLines = i/2;
+               slide.addText([{
+                    text:content.downloadedImages[i],
+                    options:{
+                        hyperlink:{url:content.downloadedImages[i],tooltip:'downloadedImage'}
+                    },
+                }],
+                {
+                    x:1,
+                    y:1+spaceBetweenLines,
+                    fontSize:8,
+                }
+                );
+           }
+        }
+
 
    async function savePresentation(content){
         apresentation.save(content.searchTerm);
