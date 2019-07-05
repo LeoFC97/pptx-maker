@@ -9,7 +9,12 @@ async function robot (){
     const content = state.load();
     const pathForLogoTransparent = 'assets/logo_transparent.png'
     const repUrl = "https://github.com/LeoFC97/pptx-maker";
-    const autoPptxText = "This slide show was made using AutoPPTX";
+    let autoPptxText;
+
+    if(content.lang === 'en')
+      autoPptxText = "This slide show was made using AutoPPTX";
+    else
+      autoPptxText = "Essa apresentação foi feita usando AutoPPTX";
 
     await defineSettings(content);
     await createCoverSlide(content);
@@ -23,7 +28,7 @@ async function robot (){
         apresentation.setCompany("Associação de Robos Depressivos Anonimos - A.R.D.A");
         apresentation.setSubject(content.searchTerm);
         
-        apresentation.setTitle(content.prefix + content.searchTerm);
+        apresentation.setTitle(content.prefixLang + content.searchTerm);
     }
 
     function createCoverSlide(content){
@@ -31,47 +36,77 @@ async function robot (){
         const date = new Date();
         const company="Associação de Robos Depressivos Anonimos - A.R.D.A";
         const coverSlide =  apresentation.addNewSlide();
+
+        coverSlide.addImage({
+            path:'content/0-original.png',
+            x: 0,
+            y: 0,
+            w: '100%',
+            h: '100%',
+        });
+
+        coverSlide.addShape(apresentation.shapes.RECTANGLE,
+        	{ x: 0,
+        	  y: 0,
+        	  w: '100%',
+        	  h: '100%',
+        	  fill: {
+        	  	type: 'solid',
+        	  	color: '000000',
+        	  	alpha: 25
+        	  } });
+
         coverSlide.addText([{
             text:autoPptxText,
             options:{
                 hyperlink:{url:repUrl, tooltip:'GitHub'}},
-        }],
+        	}],
             {
                 x:'25%',
                 y:'90%',
                 fontSize:20,
                 bold:true,
-                color:'363636',
+                color:'ffffff',
+                fontFace: content.font
             }
        );
-       coverSlide.addText("Author:"+ content.author,{
-        x:'50%',
-        y:'45%',
+
+       let madeText = 'Made by';
+
+       if(content.lang === 'pt')
+       	madeText = 'Feito por';
+
+       coverSlide.addText(`${madeText} ${content.author}`,{
+        x: 0,
+        y: 0.3,
+        w: '100%',
         font:20,
-        color:'363636',
-       });
-       coverSlide.addText(content.prefix +"\n"+content.searchTerm,{
-           x:'20%',
-           y:'30%',
-           fontSize:32,
-           bold:true,
-           color:'363636'
-       });
-       coverSlide.addText(date.getUTCFullYear()+'/'+(date.getUTCMonth()+1)+'/'+date.getUTCDate(),{
-        x:'55%',
-        y:'50%',
-        fontSize:12,
-        //italic:true,
+        color:'ffffff',
         bold:true,
-        color:'363636'
-    });
+        align: 'center',
+        fontFace: content.font
+       });
+
+       coverSlide.addText(`${content.prefixLang}\n${content.searchTerm}`,{
+           x: 0,
+           y: 0,
+           w: '100%',
+           h: '100%',
+           margin: 35,
+           align: 'center',
+           fontSize:48,
+           bold:true,
+           color:'ffffff',
+           fontFace: content.font
+       });
+
        coverSlide.addImage({
-        x:9.95,
-        y:4.35, 
-        w:4,
-        h:4, 
-        path:pathForLogoTransparent,
-        
+            path:pathForLogoTransparent,
+            hyperlink:{url:repUrl, tooltip:'GitHub'},
+            x:11.2,
+            y:5.4, 
+            w:2.5,
+            h:2.5,
        });
     }
     function callCreatorSliders(content){
@@ -84,65 +119,96 @@ async function robot (){
     function createSliders(content,i){
         const slide=apresentation.addNewSlide();
         slide.addImage({
-            path:pathForLogoTransparent,
-            x:9.95,
-            y:4.35, 
-            w:4,
-            h:4, 
+            path:'content/'+[i]+'-original.png',
+            x: 0,
+            y: 0,
+            w: '100%',
+            h: '100%',
         });
+
+        slide.addShape(apresentation.shapes.RECTANGLE,
+        	{ x: 0,
+        	  y: 0,
+        	  w: '100%',
+        	  h: '100%',
+        	  fill: {
+        	  	type: 'solid',
+        	  	color: '000000',
+        	  	alpha: 25
+        	  } });
+
+        slide.addImage({
+            path:pathForLogoTransparent,
+            x:11.2,
+            y:5.4, 
+            w:2.5,
+            h:2.5,
+            hyperlink:{url:repUrl, tooltip:'GitHub'},
+        });
+
         slide.addText([{
-            text:content.sentences[i].googleSearchQuery,
+            text:content.sentences[i].title,
         }],
             {
-                x:1.6,
+                x:0,
                 y:0.5,
+                w: '100%',
+                align: 'center',
                 fontSize:25,
                 bold:true,
-                color:'363636',
+                color:'ffffff',
+                fontFace: content.font
             }
        );
-        slide.addText([{
-            text:autoPptxText,
-            options:{
-                hyperlink:{url:repUrl, tooltip:'GitHub'}},
-        }],
-            {
-                x:'25%',
-                y:'90%',
-                fontSize:18,
-                bold:true,
-                color:'363636',
-            }
-       );
+
        slide.addText([{
             text:content.sentences[i].text,
-            options:{
-                align:'right'
-           }
         }],
         {
-            x:2.8,
-            y:2.0,
-            font:13,
-            color:'363636',
-        });
-        slide.addImage({
-            path:'content/'+[i]+'-original.png',
-            x:1.50,
-            y:3.20,
-            w:3.0,
-            h:3.0,
+            x:0,
+            y:0,
+            w: '100%',
+            h: '100%',
+            align: 'center',
+            font:15,
+            color:'ffffff',
+            bold: true,
+            margin: 16,
+            fontFace: content.font
         });
     }
+
     function createbibliographySlide(content){
         const slide = apresentation.addNewSlide();
+        let referencesText = 'References';
+
+        if(content.lang === 'pt')
+        	referencesText = 'Referências';
+
+        slide.addText([{
+            text: referencesText,
+        }],
+            {
+                x:0,
+                y:0.5,
+                w: '100%',
+                align: 'center',
+                fontSize:25,
+                bold:true,
+                color:'000000',
+                fontFace: content.font
+            }
+       );
+        
         slide.addImage({
             path:pathForLogoTransparent,
-            x:9.95,
-            y:4.35, 
-            w:4,
-            h:4, 
+            x:11.2,
+            y:5.4, 
+            w:2.5,
+            h:2.5,
+            hyperlink:{url:repUrl, tooltip:'GitHub'},
         });
+
         slide.addText([{
             text:autoPptxText,
             options:{
@@ -154,10 +220,13 @@ async function robot (){
                 fontSize:18,
                 bold:true,
                 color:'363636',
+                fontFace: content.font
             }
        );
+
        let i=0;
-       const wikipediaUrl='https://en.wikipedia.org/wiki/'+content.searchTerm;
+       const wikipediaUrl=`https://${content.lang}.wikipedia.org/wiki/${content.searchTerm}`;
+       
            slide.addText([{
                text:wikipediaUrl,
                options:{
@@ -165,14 +234,16 @@ async function robot (){
                 },
            }],
            {
-                x:1,
-                y:0,
+                x:1.5,
+                y:1.3,
                 fontSize:18,
                 bold:true,
-                color:'363636',
+                color:'696969',
+                fontFace: content.font
             }
            );
-           for(i=0;i<content.maximumSentences;i++){
+
+           for(i=0;i<content.downloadedImages.length;i++){
                let spaceBetweenLines = i/2;
                slide.addText([{
                     text:content.downloadedImages[i],
@@ -181,9 +252,11 @@ async function robot (){
                     },
                 }],
                 {
-                    x:1,
-                    y:1+spaceBetweenLines,
-                    fontSize:8,
+                    x:1.5,
+                    y:1.8+spaceBetweenLines,
+                    fontSize:10,
+                    fontFace: content.font,
+                    color: '696969'
                 }
                 );
            }

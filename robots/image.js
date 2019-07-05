@@ -19,17 +19,23 @@ async function robot() {
   async function fetchImagesOfAllSentences(content) {
     for (let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++) {
       let query
+      let title
 
       if (sentenceIndex === 0) {
         query = `${content.searchTerm}`
+        title = `${content.searchTerm}`
       } else {
         query = `${content.searchTerm} ${content.sentences[sentenceIndex].keywords[0]}`
+        title = `${content.sentences[sentenceIndex].keywords[0]}`
       }
 
       console.log(`> [image-robot] Querying Google Images with: "${query}"`)
 
-      content.sentences[sentenceIndex].images = await fetchGoogleAndReturnImagesLinks(query)
+      const googleReturnedImages = await fetchGoogleAndReturnImagesLinks(query)
+
+      content.sentences[sentenceIndex].images = googleReturnedImages.length ? googleReturnedImages : content.sentences[0].images
       content.sentences[sentenceIndex].googleSearchQuery = query
+      content.sentences[sentenceIndex].title = titleCase(title)
     }
   }
 
@@ -39,9 +45,15 @@ async function robot() {
       cx: googleSearchCredentials.searchEngineId,
       q: query,
       searchType: 'image',
+      imgSize: 'large',
       num: 2
     })
+    
     console.log(response.data);
+
+    if(!response.data.items)
+      response.data.items = [];
+
     const imagesUrl = response.data.items.map((item) => {
       return item.link
     })
@@ -81,6 +93,14 @@ async function robot() {
     })
   }
 
+}
+
+function capitalizeFirstLetter(string) {
+    return string[0].toUpperCase() + string.slice(1).toLowerCase();
+}
+
+function titleCase(string) {
+    return string.split(" ").map(x => capitalizeFirstLetter(x)).join(" ");
 }
 
 module.exports = robot

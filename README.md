@@ -1,7 +1,18 @@
 # PPTX Maker
-Esse projeto tem como ambição fazer um software que automatize o processo de criação de apresentações de slides.
-Projeto open source para fazer apresentações pptx automatizadas.
-Projeto inspirado no Video Maker do [Felipe Deschamps](https://github.com/filipedeschamps)
+Esse projeto tem como ambição fazer um software que automatize o processo de criação de apresentações.
+Projeto open source para fazer apresentações pptx de alta qualidade (em portuguẽs ou inglês) automatizadas.
+Projeto inspirado no Video Maker do [Felipe Deschamps](https://github.com/filipedeschamps).
+
+# Como Funciona
+Fale seu nome, em qual língua deseja criar o slide (Português ou Inglês), o tema que deseja buscar, a fonte e qual o assunto que vai se tratar:
+- Who is (Quem é)
+- What is (O que é)
+- The history of (A história de)
+
+# Exemplo
+Esse é um exemplo de apresentação gerada pelo software com o Tema "Os Lusíadas":
+
+![Exemplo](https://i.imgsafe.org/fa/fac8865e6c.gif)
 
 # Pré requisitos
 
