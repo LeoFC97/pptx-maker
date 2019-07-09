@@ -60,6 +60,10 @@ typings/
 # next.js build output
 .next
 
+#vscode config files
+
+.vscode
+
 # credentials
 credentials/*.json
 
