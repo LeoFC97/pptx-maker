@@ -1,21 +1,21 @@
 {
-  "name": "video-maker",
+  "name": "pttx-maker",
   "version": "1.0.0",
-  "description": "Projeto open source para fazer vídeos automatizados",
+  "description": "Projeto para criar apresentações automatizadas",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/filipedeschamps/video-maker.git"
+    "url": "git+https://github.com/leofc97/pptx-maker"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Leonardo Fernandes Costa",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/filipedeschamps/video-maker/issues"
+    "url": "https://github.com/leofc97/pptx-maker/issues"
   },
-  "homepage": "https://github.com/filipedeschamps/video-maker#readme",
+  "homepage": "https://github.com/leofc97/pptx-maker#readme",
   "dependencies": {
     "algorithmia": "^0.3.10",
     "express": "^4.16.4",
@@ -26,5 +26,8 @@
     "readline-sync": "^1.4.9",
     "sbd": "^1.0.14",
     "watson-developer-cloud": "^3.18.2"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
   }
 }
