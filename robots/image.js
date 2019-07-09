@@ -31,7 +31,7 @@ async function robot() {
 
       console.log(`> [image-robot] Querying Google Images with: "${query}"`)
 
-      const googleReturnedImages = await fetchGoogleAndReturnImagesLinks(query)
+      const googleReturnedImages = await fetchGoogleAndReturnImagesLinks(query, content)
 
       content.sentences[sentenceIndex].images = googleReturnedImages.length ? googleReturnedImages : content.sentences[0].images
       content.sentences[sentenceIndex].googleSearchQuery = query
@@ -39,13 +39,14 @@ async function robot() {
     }
   }
 
-  async function fetchGoogleAndReturnImagesLinks(query) {
+  async function fetchGoogleAndReturnImagesLinks(query, content) {
     const response = await customSearch.cse.list({
       auth: googleSearchCredentials.apiKey,
       cx: googleSearchCredentials.searchEngineId,
       q: query,
+      imgSize: 'huge',
       searchType: 'image',
-      imgSize: 'large',
+      lr: content.lang === 'pt' ? 'lang_pt' : 'lang_en',
       num: 2
     })
     
