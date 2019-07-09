@@ -14,87 +14,91 @@ const nlu = new NaturalLanguageUnderstandingV1({
 
 const state = require('./state.js')
 
-async function robot() {
-  console.log('> [text-robot] Starting...')
-  const content = state.load()
-  await fetchContentFromWikipedia(content)
-  sanitizeContent(content)
-  breakContentIntoSentences(content)
-  limitMaximumSentences(content)
-  await fetchKeywordsOfAllSentences(content)
+class Robot {
 
-  state.save(content)
-
-  async function fetchContentFromWikipedia(content) {
+  async start() {
+    console.log('> [text-robot] Starting...')
+    const content = state.load()
+  
     console.log('> [text-robot] Fetching content from Wikipedia')
+    content.sourceContentOriginal = await this.fetchContentFromWikipedia(content.searchTerm, content.lang)
+    console.log('> [text-robot] Fetching done!')
+
+    content.sourceContentSanitized = this.sanitizeContent(content.sourceContentOriginal)
+    content.sentences = this.breakContentIntoSentences(content.sourceContentSanitized)
+    content.sentences = this.limitMaximumSentences(content.sentences, content.maximumSentences)
+
+    console.log('> [text-robot] Starting to fetch keywords from Watson')
+    content.sentences = await this.fetchKeywordsOfAllSentences(content.sentences)
+
+    state.save(content)
+  }
+
+  async fetchContentFromWikipedia(articleName, lang) {
     const algorithmiaAuthenticated = algorithmia(algorithmiaApiKey)
     const wikipediaAlgorithm = algorithmiaAuthenticated.algo('web/WikipediaParser/0.1.2')
 
     const wikipediaResponse = await wikipediaAlgorithm.pipe({
-      "lang" : content.lang,
-      "articleName": content.searchTerm
+      lang,
+      articleName
     })
     const wikipediaContent = wikipediaResponse.get()
 
-    content.sourceContentOriginal = wikipediaContent.content
-    console.log('> [text-robot] Fetching done!')
+    return wikipediaContent.content
   }
 
-  function sanitizeContent(content) {
-    const withoutBlankLinesAndMarkdown = removeBlankLinesAndMarkdown(content.sourceContentOriginal)
-    const withoutDatesInParentheses = removeDatesInParentheses(withoutBlankLinesAndMarkdown)
-
-    content.sourceContentSanitized = withoutDatesInParentheses
-
-    function removeBlankLinesAndMarkdown(text) {
-      const allLines = text.split('\n')
-
-      const withoutBlankLinesAndMarkdown = allLines.filter((line) => {
-        if (line.trim().length === 0 || line.trim().startsWith('=')) {
-          return false
-        }
-
-        return true
-      })
-
-      return withoutBlankLinesAndMarkdown.join(' ')
-    }
+  sanitizeContent(sourceContentOriginal) {
+    const withoutBlankLinesAndMarkdown = this.removeBlankLinesAndMarkdown(sourceContentOriginal)
+    const withoutDatesInParentheses = this.removeDatesInParentheses(withoutBlankLinesAndMarkdown)
+    return withoutDatesInParentheses
   }
 
-  function removeDatesInParentheses(text) {
+  removeDatesInParentheses(text) {
     return text.replace(/\((?:\([^()]*\)|[^()])*\)/gm, '').replace(/  /g,' ')
   }
 
-  function breakContentIntoSentences(content) {
-    content.sentences = []
+  removeBlankLinesAndMarkdown(text) {
+    const allLines = text.split('\n')
 
-    const sentences = sentenceBoundaryDetection.sentences(content.sourceContentSanitized)
+    const withoutBlankLinesAndMarkdown = allLines.filter((line) => {
+      if (line.trim().length === 0 || line.trim().startsWith('='))
+        return false
+
+        return true
+    })
+
+      return withoutBlankLinesAndMarkdown.join(' ')
+  }
+
+  breakContentIntoSentences(sourceContentSanitized) {
+    const contentSentences = []
+    const sentences = sentenceBoundaryDetection.sentences(sourceContentSanitized)
+
     sentences.forEach((sentence) => {
-      content.sentences.push({
+      contentSentences.push({
         text: sentence,
         keywords: [],
         images: []
       })
     })
+
+    return contentSentences
   }
 
-  function limitMaximumSentences(content) {
-    content.sentences = content.sentences.slice(0, content.maximumSentences)
+  limitMaximumSentences(sentences, maximumSentences) {
+    return sentences.slice(0, maximumSentences)
   }
 
-  async function fetchKeywordsOfAllSentences(content) {
-    console.log('> [text-robot] Starting to fetch keywords from Watson')
-
-    for (const sentence of content.sentences) {
+  async fetchKeywordsOfAllSentences(sentences) {
+    for (const sentence of sentences) {
       console.log(`> [text-robot] Sentence: "${sentence.text}"`)
-
-      sentence.keywords = await fetchWatsonAndReturnKeywords(sentence.text)
-
+      sentence.keywords = await this.fetchWatsonAndReturnKeywords(sentence.text)
       console.log(`> [text-robot] Keywords: ${sentence.keywords.join(', ')}\n`)
     }
+    return sentences;
   }
 
-  async function fetchWatsonAndReturnKeywords(sentence) {
+  async fetchWatsonAndReturnKeywords(sentence) {
     return new Promise((resolve, reject) => {
       nlu.analyze({
         text: sentence,
@@ -118,4 +122,4 @@ async function robot() {
 
 }
 
-module.exports = robot
+module.exports = new Robot()
