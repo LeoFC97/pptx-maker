@@ -26,7 +26,7 @@ File: `watson-nlu.json`
 ```
 
 ## Google Search Engine
-File: `google-search-json`
+File: `google-search.json`
 ```
 {
   "apiKey":"<your api key>",
