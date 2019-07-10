@@ -6,7 +6,7 @@ describe('Input Robot', () => {
     const en = " Type your name: ";
     const pt = "Digite o seu nome: ";
     
-    const text = selectTextByLanguage(lang, en, pt);
+    const text = Robot.selectTextByLanguage(lang, en, pt);
   
     expect(text).toBe(en);
   });
@@ -15,7 +15,7 @@ describe('Input Robot', () => {
     const en = " Type your name: ";
     const pt = "Digite o seu nome: ";
     
-    const text = selectTextByLanguage(lang, en, pt);
+    const text = Robot.selectTextByLanguage(lang, en, pt);
   
     expect(text).toBe(pt);
   });
