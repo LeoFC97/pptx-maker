@@ -8,7 +8,7 @@ class Robot{
       }
       content.lang = this.askAndReturnLanguage();
       content.author = this.askAndReturnAuthor(content.lang);
-      content.searchTerm = this.askAndReturnSearchTerm(content.lag);
+      content.searchTerm = this.askAndReturnSearchTerm(content.lang);
       content.font = this.askAndReturnFont() || 'Arial';
       content.prefix = this.askAndReturnPrefix();
       content.prefixLang = this.askAndReturnPrefixLang(content.prefix, content.lang);
@@ -16,9 +16,8 @@ class Robot{
   }
   selectTextByLanguage(lang, en, pt) {
     switch(lang) {
-      case 'pt':
+      case "pt":
         return pt;
-        break;
       default:
         return en;
     }
@@ -30,11 +29,11 @@ class Robot{
     return selectedLangText
   }
   askAndReturnAuthor(lang) {
-    let question = selectTextByLanguage(lang, 'Type your name: ', 'Digite o seu nome: ');
+    let question = this.selectTextByLanguage(lang, 'Type your name: ', 'Digite o seu nome: ');
     return readline.question(question);
   }
-   askAndReturnSearchTerm(lang) {
-      let question = selectTextByLanguage(lang, 'Digite o termo a ser pesquisado na Wikipedia: ', 'Type a Wikipedia search term: ');
+   askAndReturnSearchTerm(lang) { 
+      let question = this.selectTextByLanguage(lang, 'Type a Wikipedia search term: ','Digite o termo a ser pesquisado na Wikipedia: ');
       return readline.question(question)
     }
    askAndReturnFont(){
