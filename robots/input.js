@@ -14,7 +14,7 @@ class Robot{
       }
       content.lang = this.askAndReturnLanguage();
       content.author = this.askAndReturnAuthor(content.lang);
-      content.searchTerm = this.askAndReturnSearchTerm();
+      content.searchTerm = this.askAndReturnSearchTerm(content.lag);
       content.font = this.askAndReturnFont() || 'Arial';
       content.prefix = this.askAndReturnPrefix();
       content.prefixLang = this.askAndReturnPrefixLang(content.prefix, content.lang);
@@ -22,7 +22,12 @@ class Robot{
   }
 
 
-
+  askAndReturnLanguage(){
+    const language = ['pt','en']
+    const selectedLangIndex = readline.keyInSelect(language,'Escolha o Idioma / Choose Language: ')
+    const selectedLangText = language[selectedLangIndex]
+    return selectedLangText
+  }
   askAndReturnAuthor(lang){
       switch (lang) {
       case 'pt':
@@ -33,15 +38,15 @@ class Robot{
         return readline.question(this.getText())    
     };
   }
-
-  askAndReturnLanguage(){
-    const language = ['pt','en']
-    const selectedLangIndex = readline.keyInSelect(language,'Escolha o Idioma / Choose Language: ')
-    const selectedLangText = language[selectedLangIndex]
-    return selectedLangText
-  }
-   askAndReturnSearchTerm() {
-     return readline.question('Type a Wikipedia search term: ');
+   askAndReturnSearchTerm(lang) {
+     switch(lang){
+       case'pt':
+        this.setText('Digite o termo a ser pesquisado na Wikipedia: ')
+        return readline.question(this.getText())
+      case 'en':
+        this.setText('Type a Wikipedia search term: ')
+        return readline.question(this.getText())
+     }
   }
    askAndReturnFont(){
     return readline.question('Type a font [Default: Arial]: ')
