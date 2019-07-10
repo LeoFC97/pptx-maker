@@ -2,12 +2,6 @@ const readline = require('readline-sync')
 const state = require('./state.js')
 
 class Robot{
-  getText(){
-    return this.text;
-  }
-  setText(a){
-    this.text=a;
-  }
   async start(){
       const content = {
           maximumSentences: 7
@@ -20,34 +14,29 @@ class Robot{
       content.prefixLang = this.askAndReturnPrefixLang(content.prefix, content.lang);
       state.save(content)
   }
-
-
+  selectTextByLanguage(lang, en, pt) {
+    switch(lang) {
+      case 'pt':
+        return pt;
+        break;
+      default:
+        return en;
+    }
+  }
   askAndReturnLanguage(){
     const language = ['pt','en']
     const selectedLangIndex = readline.keyInSelect(language,'Escolha o Idioma / Choose Language: ')
     const selectedLangText = language[selectedLangIndex]
     return selectedLangText
   }
-  askAndReturnAuthor(lang){
-      switch (lang) {
-      case 'pt':
-        this.setText('Digite o seu nome: ')
-        return readline.question(this.getText())    
-      case 'en':
-        this.setText('Type your name: ')
-        return readline.question(this.getText())    
-    };
+  askAndReturnAuthor(lang) {
+    let question = selectTextByLanguage(lang, 'Type your name: ', 'Digite o seu nome: ');
+    return readline.question(question);
   }
    askAndReturnSearchTerm(lang) {
-     switch(lang){
-       case'pt':
-        this.setText('Digite o termo a ser pesquisado na Wikipedia: ')
-        return readline.question(this.getText())
-      case 'en':
-        this.setText('Type a Wikipedia search term: ')
-        return readline.question(this.getText())
-     }
-  }
+      let question = selectTextByLanguage(lang, 'Digite o termo a ser pesquisado na Wikipedia: ', 'Type a Wikipedia search term: ');
+      return readline.question(question)
+    }
    askAndReturnFont(){
     return readline.question('Type a font [Default: Arial]: ')
   }
@@ -75,4 +64,6 @@ class Robot{
   }
 }
 
-module.exports = new  Robot();
+
+
+module.exports = new  Robot()
