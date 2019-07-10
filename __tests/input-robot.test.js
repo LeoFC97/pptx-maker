@@ -15,10 +15,11 @@ describe('Input Robot', () => {
     expect(selectedLangText).toBe('en');
   });
   it('Should question Author name in PTBR', () =>{
-    const lang = 'pt'
-    const question = 'Digite o seu nome';
-    const answ = 'Leonardo'
-    const a = Robot.askAndReturnAuthor(lang);
-    expect(a).toBe(question+answ);
+    Robot.setText('Digite o seu nome: ')
+    expect(Robot.getText()).toBe('Digite o seu nome: ');
+  });
+  it('Should question Author name in EN', () =>{
+    Robot.setText('Type your name: ')
+    expect(Robot.getText()).toBe('Type your name: ');
   });
 });
