@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>PPTX-MAKER</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+</head>
+
+<body>
+    <div class="title-bar">
+        <div class="title">Pptx-Maker</div>
+        <div class="action-buttons">
+            <div class="action-button min-button" id="minimize"><i class="fas fa-window-minimize"></i></div>
+            <div class="action-button max-button" id="maximize"><i class="fas fa-window-maximize"></i></div>
+            <div class="action-button close-button" id="close"><i class="fas fa-window-close"></i></div>
+        </div>
+    </div>
+    <div class="chat-wrapper">
+        <div class="stream-info">
+            <h1>Welcome to Pptx-Maker</h1>
+
+                <label>Select your language:</label>
+                <select class="form-control" id="selectLang">
+                    <option value="pt">pt</option>
+                    <option value="en">en</option>
+                </select>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" id="inputName"
+                        placeholder="put your name">
+                </div>
+                <div class="form-group">
+                        <label>Search Term</label>
+                        <input type="text" class="form-control" id="inputTerm"
+                            placeholder="put what are you looking for">
+                </div>
+                <div class="form-group">
+                        <label>Font</label>
+                        <input type="text" class="form-control" id="inputFont"
+                            placeholder="The default font is Arial">
+                </div>
+                <label>Choose one:</label>
+                <select class="form-control" id="inputOption">
+                        <option value="pt">Who is</option>
+                        <option value="en">What is</option>
+                        <option value="en">The history of</option>
+                </select>
+        </div>
+        <br><br><br>
+        <button class="btn btn-secondary btn-lg btn-block" id="btnDoPpt">Fazer Ppt</button>
+
+    </div>
+    <script>
+        require('./index.js')
+    </script>
+</body>
+
+</html>

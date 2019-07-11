@@ -2,9 +2,10 @@
   "name": "pttx-maker",
   "version": "1.0.0",
   "description": "Projeto para criar apresentações automatizadas",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   "homepage": "https://github.com/leofc97/pptx-maker#readme",
   "dependencies": {
     "algorithmia": "^0.3.10",
+    "electron": "^5.0.6",
     "express": "^4.16.4",
     "gm": "^1.23.1",
     "googleapis": "^38.0.0",
