@@ -28,7 +28,7 @@ async function robot (){
         apresentation.setCompany("Associação de Robos Depressivos Anonimos - A.R.D.A");
         apresentation.setSubject(content.searchTerm);
         
-        apresentation.setTitle(content.prefixLang + content.searchTerm);
+        apresentation.setTitle(content.prefix + content.searchTerm);
     }
 
     function createCoverSlide(content){
