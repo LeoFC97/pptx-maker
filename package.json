@@ -22,6 +22,7 @@
     "gm": "^1.23.1",
     "googleapis": "^38.0.0",
     "image-downloader": "^3.4.2",
+    "lodash.mergewith": "^4.6.2",
     "pptxgenjs": "^2.5.0",
     "readline-sync": "^1.4.9",
     "sbd": "^1.0.14",
