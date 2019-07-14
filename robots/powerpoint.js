@@ -87,7 +87,7 @@ async function robot (){
         fontFace: content.font
        });
 
-       coverSlide.addText(`${content.prefixLang}\n${content.searchTerm}`,{
+       coverSlide.addText(`${content.prefix}\n${content.searchTerm}`,{
            x: 0,
            y: 0,
            w: '100%',
