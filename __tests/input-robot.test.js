@@ -42,5 +42,14 @@ describe('Input Robot', () => {
   
     expect(text).toBe(pt);
   });
+  it('Ask number os slides', () => {
+    const lang = "pt";
+    const en = 'Type a Wikipedia search term: ';
+    const pt = 'Digite o termo a ser pesquisado na Wikipedia: ';
+    
+    const text = Robot.selectTextByLanguage(lang, en, pt);
+  
+    expect(text).toBe(pt);
+  });
 });
 

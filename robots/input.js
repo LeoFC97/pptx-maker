@@ -4,19 +4,15 @@ const state = require('./state.js')
 class Robot{
 
   async start(){
-      const content = {
-        maximumSentences: 7
-      }
-
+      const content={}
       content.lang = this.askAndReturnLanguage();
       content.author = this.askAndReturnAuthor(content.lang);
       content.searchTerm = this.askAndReturnSearchTerm(content.lang);
       content.font = this.askAndReturnFont(content.lang);
       content.prefix = this.askAndReturnPrefix(content.lang);
-      
+      content.maximumSentences = this.askNumberOfSlides(content.lang)
       state.save(content)
   }
-
   selectTextByLanguage(lang, textInEnglish, textInPortuguese) {
     switch(lang) {
       case "pt":
@@ -65,6 +61,10 @@ class Robot{
     const selectedPrefixText = prefixes[selectedPrefixIndex]
 
     return selectedPrefixText
+  }
+  askNumberOfSlides(lang){
+    const question = this.selectTextByLanguage(lang,'Insert number os slides you want(Default: 7)', 'Insira o numero de sildes que a apresentacao tera(Padrao: 7)')
+    return readline.question(question) || 7
   }
 }
 
