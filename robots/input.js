@@ -4,7 +4,7 @@ const state = require('./state.js')
 class Robot{
 
   async start(){
-      const content={}
+      const content={}      
       content.lang = this.askAndReturnLanguage();
       content.author = this.askAndReturnAuthor(content.lang);
       content.searchTerm = this.askAndReturnSearchTerm(content.lang);
@@ -50,7 +50,7 @@ class Robot{
 
   askAndReturnFont(lang){
     const question = this.selectTextByLanguage(lang, 'Type a font [Default: Arial]: ', 'Digite uma fonte [Padrao: Arial]: ')
-    return readline.question(question) || 'Arial';
+    return readline.question(question,{defaultInput: 'Arial'});
   }
 
    askAndReturnPrefix(lang) {
@@ -64,7 +64,7 @@ class Robot{
   }
   askNumberOfSlides(lang){
     const question = this.selectTextByLanguage(lang,'Insert number os slides you want(Default: 7)', 'Insira o numero de sildes que a apresentacao tera(Padrao: 7)')
-    return readline.question(question) || 7
+    return readline.question(question, {defaultInput:7}) 
   }
 }
 
