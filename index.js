@@ -9,7 +9,7 @@ const robots = {
 async function start() {
   robots.input.start()
   await robots.text.start()
-  await robots.image()
+  await robots.image.start()
   await robots.powerpoint()
 }
 
