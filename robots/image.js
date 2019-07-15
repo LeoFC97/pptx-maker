@@ -7,46 +7,63 @@ const googleSearchCredentials = require('../credentials/google-search.json')
 
 //console.log("API KEY:"+googleSearchCredentials.apiKey+"\n"+"EngineID:"+googleSearchCredentials.searchEngineId);
 
-async function robot() {
-  console.log('> [image-robot] Starting...')
-  const content = state.load()
+class Robot {
+  async start() {
+    console.log('> [image-robot] Starting...');
+    const content = state.load();
+    const {  searchTerm, sentences, lang } = content;
 
-  await fetchImagesOfAllSentences(content)
-  await downloadAllImages(content)
+    content.sentences = await this.fetchImagesOfAllSentences(searchTerm, sentences, lang);
+    content.sentences = await this.fetchSentencesTitles(searchTerm, content.sentences, lang);
+    
+    content.downloadedImages = await this.downloadAllImages(content.sentences);
 
-  state.save(content)
-
-  async function fetchImagesOfAllSentences(content) {
-    for (let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++) {
-      let query
-      let title
-
-      if (sentenceIndex === 0) {
-        query = `${content.searchTerm}`
-        title = `${content.searchTerm}`
-      } else {
-        query = `${content.searchTerm} ${content.sentences[sentenceIndex].keywords[0]}`
-        title = `${content.sentences[sentenceIndex].keywords[0]}`
-      }
-
-      console.log(`> [image-robot] Querying Google Images with: "${query}"`)
-
-      const googleReturnedImages = await fetchGoogleAndReturnImagesLinks(query, content)
-
-      content.sentences[sentenceIndex].images = googleReturnedImages.length ? googleReturnedImages : content.sentences[0].images
-      content.sentences[sentenceIndex].googleSearchQuery = query
-      content.sentences[sentenceIndex].title = titleCase(title)
-    }
+    state.save(content);
   }
 
-  async function fetchGoogleAndReturnImagesLinks(query, content) {
+  async fetchImagesOfAllSentences(searchTerm, sentences, lang) {
+    for (let sentenceIndex = 0; sentenceIndex < sentences.length; sentenceIndex++) {
+      let query;
+
+      if (!sentenceIndex)
+        query = searchTerm;
+      else
+        query = `${searchTerm} ${sentences[sentenceIndex].keywords[0]}`;
+
+      console.log(`> [image-robot] Querying Google Images with: "${query}"`);
+
+      const googleReturnedImages = await this.fetchGoogleAndReturnImagesLinks(query, lang);
+
+      sentences[sentenceIndex].images = googleReturnedImages.length ? googleReturnedImages : sentences[0].images;
+      sentences[sentenceIndex].googleSearchQuery = query;
+    }
+
+    return sentences;
+  }
+
+  async fetchSentencesTitles(searchTerm, sentences) {
+    for(let sentenceIndex = 0; sentenceIndex < sentences.length; sentenceIndex++) {
+      let title;
+
+      if(!sentenceIndex)
+        title = searchTerm
+      else
+        title = sentences[sentenceIndex].keywords[0];
+
+      sentences[sentenceIndex].title = titleCase(title);
+    }
+
+    return sentences;
+  }
+
+  async fetchGoogleAndReturnImagesLinks(query, lang) {
     const response = await customSearch.cse.list({
       auth: googleSearchCredentials.apiKey,
       cx: googleSearchCredentials.searchEngineId,
       q: query,
-      imgSize: 'huge',
+      imgSize: 'large',
       searchType: 'image',
-      lr: content.lang === 'pt' ? 'lang_pt' : 'lang_en',
+      lr: lang === 'pt' ? 'lang_pt' : 'lang_en',
       num: 2
     })
     
@@ -59,39 +76,40 @@ async function robot() {
       return item.link
     })
 
-    return imagesUrl
+    return imagesUrl;
   }
 
-  async function downloadAllImages(content) {
-    content.downloadedImages = []
+  async downloadAllImages(sentences) {
+    const downloadedImages = [];
 
-    for (let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++) {
-      const images = content.sentences[sentenceIndex].images
+    for (let sentenceIndex = 0; sentenceIndex < sentences.length; sentenceIndex++) {
+      const images = sentences[sentenceIndex].images;
 
       for (let imageIndex = 0; imageIndex < images.length; imageIndex++) {
-        const imageUrl = images[imageIndex]
+        const imageUrl = images[imageIndex];
 
         try {
-          if (content.downloadedImages.includes(imageUrl)) {
+          if (downloadedImages.includes(imageUrl))
             throw new Error('Image already downloaded')
-          }
 
-          await downloadAndSave(imageUrl, `${sentenceIndex}-original.png`)
-          content.downloadedImages.push(imageUrl)
-          console.log(`> [image-robot] [${sentenceIndex}][${imageIndex}] Image successfully downloaded: ${imageUrl}`)
-          break
+          await this.downloadAndSave(imageUrl, `${sentenceIndex}-original.png`);
+          downloadedImages.push(imageUrl);
+          console.log(`> [image-robot] [${sentenceIndex}][${imageIndex}] Image successfully downloaded: ${imageUrl}`);
+          break;
         } catch(error) {
-          console.log(`> [image-robot] [${sentenceIndex}][${imageIndex}] Error (${imageUrl}): ${error}`)
+          console.log(`> [image-robot] [${sentenceIndex}][${imageIndex}] Error (${imageUrl}): ${error}`);
         }
       }
     }
+
+    return downloadedImages;
   }
 
-  async function downloadAndSave(url, fileName) {
+ downloadAndSave(url, fileName) {
     return imageDownloader.image({
       url: url,
       dest: `./content/${fileName}`
-    })
+    });
   }
 
 }
@@ -104,4 +122,4 @@ function titleCase(string) {
     return string.split(" ").map(x => capitalizeFirstLetter(x)).join(" ");
 }
 
-module.exports = robot
+module.exports = new Robot();
