@@ -18,6 +18,7 @@ class Robot {
     await this.callCreatorSliders(presentation, maximumSentences, sentences, font);
     this.createReferencesSlide(presentation, searchTerm, downloadedImages, lang, font);
     this.savePresentation(presentation, searchTerm);
+    await this.clearContentImages(maximumSentences);
   }
 
   defineSettings(presentation, author, prefix, searchTerm) {
@@ -71,6 +72,14 @@ class Robot {
 
   savePresentation(presentation, searchTerm) {
     presentation.save(searchTerm);
+  }
+
+  async clearContentImages(maximumSentences) {
+    let i = 0;
+
+    for(i = 0; i < maximumSentences; i++) {
+      await this.removeImage(`content/${i}-original.png`);
+    }
   }
 
 
@@ -253,6 +262,12 @@ class Robot {
       });
     });
   }
+
+  removeImage(imageUrl) {
+    return new Promise((next, reject) => {
+      fs.unlink(imageUrl, next);
+    });
+  }  
 }
 
 
