@@ -10,7 +10,7 @@ async function start() {
   robots.input.start()
   await robots.text.start()
   await robots.image.start()
-  robots.powerpoint.start()
+  await robots.powerpoint.start()
 }
 
 start()
