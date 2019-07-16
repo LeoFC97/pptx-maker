@@ -1,3 +1,4 @@
+const fs = require('fs');
 const pptx = require('pptxgenjs');
 const state = require('./state.js');
 
@@ -5,7 +6,7 @@ const pathForLogoTransparent = 'assets/logo_transparent.png';
 const repUrl = 'https://github.com/LeoFC97/pptx-maker';
 
 class Robot {
-  start() {
+  async start() {
     const content = state.load();
     const { author, prefix, searchTerm, lang, font, maximumSentences, downloadedImages, sentences } = content;
     const presentation = new pptx();
@@ -14,7 +15,7 @@ class Robot {
 
     this.defineSettings(presentation, author, prefix, searchTerm);
     this.createCoverSlide(presentation, author, prefix, searchTerm, lang, font);
-    this.callCreatorSliders(presentation, maximumSentences, sentences, font);
+    await this.callCreatorSliders(presentation, maximumSentences, sentences, font);
     this.createReferencesSlide(presentation, searchTerm, downloadedImages, lang, font);
     this.savePresentation(presentation, searchTerm);
   }
@@ -37,10 +38,14 @@ class Robot {
     this.insertAuthor(coverSlide, author, lang, font);
   }
 
-  callCreatorSliders(presentation, maximumSentences, sentences, font) {
+  async callCreatorSliders(presentation, maximumSentences, sentences, font) {
     let i = 0;
-    for(i = 0; i < maximumSentences; i++)
-      this.createSlide(presentation, `content/${i}-original.png`, sentences[i].title, sentences[i].text, font);
+
+    for(i = 0; i < maximumSentences; i++) {
+      const photoExists = await this.verifyIfImageExists(`content/${i}-original.png`);
+      const imageUrl = photoExists ? `content/${i}-original.png` : `content/0-original.png`;
+      this.createSlide(presentation, imageUrl, sentences[i].title, sentences[i].text, font);
+    }
   }
 
   createSlide(presentation, backgroundUrl, title, text, font) {
@@ -236,6 +241,17 @@ class Robot {
       default:
         return textInEnglish;
     }
+  }
+
+  verifyIfImageExists(imageUrl) {
+    return new Promise((next, reject) => {
+      fs.readFile(imageUrl, err => {
+        if(err)
+          next(false);
+        else
+          next(true);
+      });
+    });
   }
 }
 
